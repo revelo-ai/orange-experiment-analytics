@@ -1,0 +1,2 @@
+include orangecontrib/experiment_analytics/tutorials/*.ows
+include orangecontrib/experiment_analytics/widgets/icons/*

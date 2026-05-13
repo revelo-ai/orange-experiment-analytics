@@ -1,0 +1,32 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install PyQt5==5.15.* PyQtWebEngine==5.15.*
+          python -m pip install .
+
+      - name: Run tests
+        run: |
+          python -m unittest discover -v --start-directory orangecontrib/experiment_analytics

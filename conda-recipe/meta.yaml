@@ -1,0 +1,46 @@
+{% set data = load_setup_py_data() %}
+{% set name = "orange-experiment-analytics" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ data['version'] }}
+
+source:
+  git_url: ../
+build:
+  number: 0
+  noarch: python
+  script:
+    - cd doc && call make htmlhelp && cd ..
+    - dir doc
+    - python setup.py install --single-version-externally-managed --record record.txt
+
+requirements:
+  build:
+    - python
+    - sphinx
+    - recommonmark
+    - setuptools
+  run:
+    - python
+    - anyqt
+    - orange3 >=3.31.0
+    - orange-widget-base
+    - orange-canvas-core
+    - pandas >=0.23
+    - pymssql
+    - scipy >=1.8.0
+    - scikit-learn
+    - statsmodels
+
+test:
+  imports:
+    - orangecontrib.experiment_analytics
+
+about:
+  home: https://revelo.ai//
+  summary: 'Orange for Procter & Gamble'
+
+extra:
+  recipe-maintainers:
+    - revelo
